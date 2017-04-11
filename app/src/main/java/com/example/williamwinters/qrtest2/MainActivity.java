@@ -1,9 +1,5 @@
 package com.example.williamwinters.qrtest2;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "confirm works", Toast.LENGTH_LONG).show();
             }
         });
-        //bConfirm.setVisibility(View.INVISIBLE);
+        bConfirm.setVisibility(View.INVISIBLE);
 
         final LinearLayout gCodeEnterPrompt = (LinearLayout) findViewById(R.id.ask_if_problem);
 
@@ -58,7 +54,14 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "opting to enter code instead", Toast.LENGTH_LONG).show();
             }
         });
-        //gCodeEnterPrompt.setVisibility(View.VISIBLE);
+
+        Button bBack = (Button) findViewById(R.id.button_back);
+        bConfirm.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "going back", Toast.LENGTH_LONG).show();
+            }
+        });
 
         BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(this)
                         .setBarcodeFormats(Barcode.QR_CODE)
@@ -110,18 +113,24 @@ public class MainActivity extends AppCompatActivity {
                     final SparseArray<Barcode> barcodes = detections.getDetectedItems();
 
                     if (barcodes.size() != 0) {
-//                        barcodeInfo.post(new Runnable() {    // Use the post method of the TextView
-//                            public void run() {
-//                                barcodeInfo.setText(barcodes.valueAt(0).displayValue);
-//                            }
-//                        });
-                        //bConfirm.setVisibility(View.VISIBLE);
-                        //gCodeEnterPrompt.setVisibility(View.INVISIBLE);
+                        barcodeInfo.post(new Runnable() {    // Use the post method of the TextView
+                            public void run() {
+                                barcodeInfo.setText(barcodes.valueAt(0).displayValue);
+                            }
+                        });
+
+                        bConfirm.post(new Runnable(){
+                            public void run(){
+                                bConfirm.setVisibility(View.VISIBLE);
+                            }
+                        });
+                        gCodeEnterPrompt.post(new Runnable(){
+                            public void run(){
+                                gCodeEnterPrompt.setVisibility(View.INVISIBLE);
+                            }
+                        });
+
                         qrData = barcodeInfo.getText().toString();
-                    }
-                    else{
-                        //bConfirm.setVisibility(View.INVISIBLE);
-                        //gCodeEnterPrompt.setVisibility(View.VISIBLE);
                     }
                 }
             });
