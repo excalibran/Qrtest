@@ -2,14 +2,15 @@ package com.example.williamwinters.qrtest2;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.vision.CameraSource;
@@ -29,38 +30,48 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final SurfaceView cameraView = (SurfaceView)findViewById(R.id.camera_view);
-        final TextView barcodeInfo = (TextView)findViewById(R.id.code_info);
-
-        /*
-        *
-        *
-        * */
 
         final Button bConfirm = (Button) findViewById(R.id.button_confirm);
         bConfirm.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                /*
+                * Intent goes here
+                * */
                 Toast.makeText(MainActivity.this, "confirm works", Toast.LENGTH_LONG).show();
             }
         });
         bConfirm.setVisibility(View.INVISIBLE);
 
-        final LinearLayout gCodeEnterPrompt = (LinearLayout) findViewById(R.id.ask_if_problem);
-
-        final Button bEnterCodeInstead = (Button) findViewById(R.id.button_string_code);
-        bEnterCodeInstead.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "opting to enter code instead", Toast.LENGTH_LONG).show();
-            }
-        });
-
         Button bBack = (Button) findViewById(R.id.button_back);
         bConfirm.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "going back", Toast.LENGTH_LONG).show();
+                /*
+                * firebase goes here
+                * */
+                Toast.makeText(MainActivity.this, "confirmed!", Toast.LENGTH_LONG).show();
             }
+        });
+
+        final EditText barcodeInfo = (EditText)findViewById(R.id.code_info);
+        barcodeInfo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable arg){
+                bConfirm.post(new Runnable(){
+                    public void run(){
+                        bConfirm.setVisibility(View.VISIBLE);
+                    }
+                });
+
+                qrData = barcodeInfo.getText().toString();
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int count, int after){}
         });
 
         BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(this)
@@ -86,9 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-                }
+                public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {}
 
                 @Override
                 public void surfaceDestroyed(SurfaceHolder holder) {
@@ -118,19 +127,6 @@ public class MainActivity extends AppCompatActivity {
                                 barcodeInfo.setText(barcodes.valueAt(0).displayValue);
                             }
                         });
-
-                        bConfirm.post(new Runnable(){
-                            public void run(){
-                                bConfirm.setVisibility(View.VISIBLE);
-                            }
-                        });
-                        gCodeEnterPrompt.post(new Runnable(){
-                            public void run(){
-                                gCodeEnterPrompt.setVisibility(View.INVISIBLE);
-                            }
-                        });
-
-                        qrData = barcodeInfo.getText().toString();
                     }
                 }
             });
