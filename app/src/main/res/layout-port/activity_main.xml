@@ -12,9 +12,14 @@
     <TextView
         android:id="@+id/EnterPrompt"
         android:layout_width="wrap_content"
-        android:layout_height="58dp"
-        android:text="Your teacher will have a code. \nPoint the phone at it or type it in!"
-        android:textSize="18sp" />
+        android:layout_height="54dp"
+        android:text="Your teacher will have a code. "
+        android:textSize="24sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.28" />
 
     <EditText
         android:id="@+id/code_info"
@@ -23,14 +28,14 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@+id/camera_view"
-        android:text="Nothing to read."
+        android:hint="Point the phone at it or type it here!"
+        android:inputType="text"
         android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/button_confirm"
+    <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Got it!" />
+        android:layout_weight="0.28" />
 
     <SurfaceView
         android:id="@+id/camera_view"
@@ -39,21 +44,11 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true" />
 
-    <android.support.constraint.ConstraintLayout
+    <Button
+        android:id="@+id/button_confirm"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="start"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/button_back"
-            android:layout_width="wrap_content"
-            android:layout_height="64dp"
-            android:layout_weight="1"
-            android:text="Back"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="8dp" />
-    </android.support.constraint.ConstraintLayout>
+        android:layout_height="wrap_content"
+        android:text="Got it!" />
 
 </LinearLayout>
 

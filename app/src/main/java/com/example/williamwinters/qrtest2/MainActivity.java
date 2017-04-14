@@ -43,17 +43,6 @@ public class MainActivity extends AppCompatActivity {
         });
         bConfirm.setVisibility(View.INVISIBLE);
 
-        Button bBack = (Button) findViewById(R.id.button_back);
-        bConfirm.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                /*
-                * firebase goes here
-                * */
-                Toast.makeText(MainActivity.this, "confirmed!", Toast.LENGTH_LONG).show();
-            }
-        });
-
         final EditText barcodeInfo = (EditText)findViewById(R.id.code_info);
         barcodeInfo.addTextChangedListener(new TextWatcher() {
             @Override
